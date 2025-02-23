@@ -1,4 +1,6 @@
-# Chess Tournament Scheduling  
+**AMMM: Algorithmic Methods for Mathematical Models**
+
+# Project: Chess Tournament Scheduling  
 
 This project focuses on scheduling a round-robin chess tournament with an odd number **n** of contestants, ensuring fairness in white/black assignments and optimizing player availability preferences.  
 
