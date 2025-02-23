@@ -1,0 +1,26 @@
+/* Homework: FSP Models & Java Programs
+*
+*
+*
+* Name: Mehdi
+* Surname: Hassanpour
+*
+*
+*/
+/* saving account */ 
+const N = 10 //constant N is only for FSP modeling.
+//It should not appear in the Java impl.
+PERSON = (deposit[1..N] -> PERSON | withdraw[1..N] -> PERSON).
+
+ACCOUNT = ACCOUNT[0],
+ACCOUNT [balance: 0..N] = (deposit[amount: 1..N] -> ACCOUNT[balance + amount]
+						  | when (balance > 0) withdraw[amount: 1..balance] -> ACCOUNT[balance - amount]
+						  ).
+
+//(1) guard balance > 0 is only to avoid empty ranges.
+// Empty ranges are not allowed by LTSA
+//(2) Do not worry about errors on traces like:
+// deposit[1] deposit[N]
+// this is because FSP models can only represent **finite** state systems
+
+||SAVING_ACCOUNT = (a:PERSON || b:PERSON || {a , b}::ACCOUNT).

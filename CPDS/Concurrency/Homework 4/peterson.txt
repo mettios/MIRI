@@ -1,0 +1,56 @@
+/* Homework 4: Peterson 
+**
+** Name: Mehdi
+** Surname: Hassanpour
+*/
+
+range Card = 1..2
+
+set CardActions = {set1, set2, [1], [2]}
+
+CARDVAR = VAL[1],
+VAL[i: Card] = (set1 -> VAL[1] | set2 -> VAL[2] | [i] -> VAL[i]).
+
+const False = 0
+const True = 1
+range Bool = False..True
+
+set BoolActions = {setTrue, setFalse, [False], [True]}
+BOOLVAR = VAL[False],
+VAL[v:Bool] = (setTrue -> VAL[True]
+|setFalse -> VAL[False]
+|[v] -> VAL[v]
+).
+//||FLAGS = (flag1:BOOLVAR || flag2:BOOLVAR).
+//||FLAGS_TURN = (FLAGS|| turn:CARDVAR).
+||FLAGS_TURN = (flag1:BOOLVAR || flag2:BOOLVAR || turn:CARDVAR).
+
+NEIGHBOR1 = (flag1.setTrue -> turn.set2 -> TEST),
+TEST = (flag2[raised:Bool] -> turn[t:Card] ->
+if (raised && t == 2) then TEST
+else (enter -> exit -> flag1.setFalse -> NEIGHBOR1)
+) + {{flag1,flag2}.BoolActions, turn.CardActions}.
+
+NEIGHBOR2 = (flag2.setTrue -> turn.set1 -> TEST),
+TEST = (flag1[raised:Bool] -> turn[t:Card] ->
+if (raised && t == 1) then TEST
+else (enter -> exit -> flag2.setFalse -> NEIGHBOR2)
+) + {{flag1,flag2}.BoolActions, turn.CardActions}.
+
+
+
+property MUTEX = (n1.enter -> n1.exit -> MUTEX
+				| n2.enter -> n2.exit -> MUTEX).
+
+||FIELD = (n1:NEIGHBOR1 ||n2: NEIGHBOR2 || {n1, n2}::FLAGS_TURN || MUTEX).
+
+
+||GREEDY = FIELD << {n1.flag1.setTrue, n2.flag2.setTrue}. 
+
+
+progress ENTER1 = {n1.enter} //NEIGHBOR 1 always gets to enter
+progress ENTER2 = {n2.enter} //NEIGHBOR 2 always gets to enter
+
+/* safety test pass - no violation
+** progress test pass - no violation
+*/ 

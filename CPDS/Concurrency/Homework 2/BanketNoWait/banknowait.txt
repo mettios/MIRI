@@ -1,0 +1,14 @@
+/* Homework: FSP Models & Java Programs
+*
+*
+*
+* Name: Mehdi
+* Surname: Hassanpour
+*
+*
+*/
+/* banknowait */ 
+To address the issues in BadPotTwo, the fillpot and getservings methods in the Pot class are synchronized. Upon reviewing the output, the problems with negative servings and other misbehaviors are resolved.
+The Banket model is more efficient in terms of resource management. When the resource is unavailable, consumers automatically wait until they are notified, or the system signals for a refill once the resource is fully depleted. This ensures coordinated access without unnecessary retries.
+In contrast, the BanketNoWait model requires each consumer to independently check if the resource is available. If unavailable, the consumer simply retries later (“goes for a walk”), which may lead to less efficient resource utilization.
+The choice between these models depends on the specific requirements and nature of the tasks and resources involved. Both approaches can be viable under different circumstances, but if I were to recommend one, I would pick Banket.

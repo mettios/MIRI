@@ -1,0 +1,37 @@
+/* Homework: LTS & FSP
+*
+*
+*
+* Name: Mehdi
+* Surname: Hassanpour
+*
+*
+*/
+/* museum */
+const N = 5
+EAST = (arrive -> EAST).
+WEST = (leave -> WEST).
+DIRECTOR = (open -> close -> DIRECTOR).
+CONTROL = CLOSED[0],
+CLOSED[i:0..N] = (when (i == 0) open -> OPENED[i]
+				 |when (i > 0) leave -> CLOSED[i-1]),
+OPENED[i:0..N] = (close -> CLOSED[i]
+				 |when (i < N) arrive -> OPENED[i+1]
+				 |when (i > 0) leave -> OPENED[i-1]).
+||MUSEUM = (EAST || WEST || DIRECTOR || CONTROL).
+
+/* Time-Out Client server */
+/*
+** The issue with the initial server definition is a deadlock scenario that occurs in state 3. This happens in the following traces:
+** 1) call -> service -> timeout
+** 2) call -> timeout -> service
+
+** Once the server enters this state, there’s no way out. To resolve this, I’ve added LISTEN1 and LISTEN2 actions to check if a reset to the initial server state is needed.
+*/
+CLIENT = (call -> WAIT),
+WAIT = (answer -> continue -> CLIENT | timeout -> CLIENT).
+SERVER = (request-> LISTEN1),
+LISTEN1 = (timeout -> SERVER | service -> LISTEN2),
+LISTEN2 = (timeout -> SERVER | reply -> SERVER). 
+||CLIENT_SERVER = (CLIENT || SERVER) / {call/request, answer/reply}.
+/* end homework */
