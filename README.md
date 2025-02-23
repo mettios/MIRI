@@ -1,4 +1,4 @@
-# MIRI-CPDS
-Concurrence, Parallelism and Distributed Systems
+# MIRI
+Master in Innovation and Research in Informatics
 
-This repository contains implementations and experiments related to concurrency, parallelism, and distributed computing. The focus is on understanding computation as a collection of tasks that execute simultaneously, either on a single processor, multiple cores, or across a network. It explores key models, challenges, algorithms, and systems that enable efficient execution and interaction between tasks.
+Projects and assignments related to several master courses at Polytechnic University of Catalonia (UPC)
